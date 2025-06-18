@@ -5,7 +5,7 @@ body{
 }
 .container{
     background: rgba(184, 228, 230, 0.445);
-    width: 55vw;
+    width: 60vw;
     border-radius: 16px;
 } 
 .col p{
@@ -103,5 +103,9 @@ body{
         width: 100%;
         border-radius: 10px;
         margin: 5px 0;
+    }
+
+    .container{
+    width: 0;
     }
 }
