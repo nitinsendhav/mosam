@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mausam</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+ 
+  <link rel="stylesheet" href="/static/css/style.css">
+ 
+</head> 
+<body>
+  <h1 class="text-center my-1">🌦️ Weather</h1>
+
+  <div class="container my-4 py-2 px-4">
+
+    <form method="POST" class="search-form d-flex justify-content-center mb-3 p-2">
+      {% csrf_token %}
+      <input type="text" name="city" placeholder="Enter city..." value="{{ weather.city }}" required class="form-control w-50 me-2">
+      <button type="submit" class="btn">
+        <i class="bi bi-search"></i>
+      </button>
+    </form>
+
+    {% if city %}
+    
+    <div class="d-flex justify-content-center">
+      <div class="row w-75 p-3">
+        <div class="col-md-3 text-center">
+          <img src="http://openweathermap.org/img/wn/{{ icon }}@2x.png" class="img-fluid" style="width:120px;" alt="Weather Icon">
+        </div>
+        <div class="col-md-8">
+          <p><strong>City:</strong> {{ city }}</p>
+          <p><strong>Temperature:</strong> {{ temperature }} °F 🌡️</p>
+          <p><strong>Condition:</strong> {{ main }} - {{ description }}</p>
+          <p><strong>Pressure:</strong> {{ pressure }} hPa</p>
+          <p><strong>Wind Direction:</strong> {{ deg }}°</p>
+          <p><strong>Wind Speed:</strong> {{ wind_speed }} m/s</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- agle 5 din ka  -->
+    <div class="row forecast mt-4">
+      <h3 class="text-center mb-3">🌤 5-Day Forecast</h3>
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        {% for day in forecast %}
+        <div class="forecast-card text-center p-3 ">
+          <p><strong>{{ day.date }}</strong></p>
+          <img src="https://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="Forecast Icon" width="80">
+          <p>{{ day.temp }}°C</p>
+          <p>{{ day.desc }}</p>
+
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <p id="datetime" class="text-center text-dark mt-4"></p>
+    {% endif %}
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById('datetime').innerText = now.toLocaleString();
+    }, 1000);
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
